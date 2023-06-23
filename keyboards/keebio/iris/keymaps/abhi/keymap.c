@@ -27,7 +27,9 @@ typedef struct {
 
 enum {
     FN_DANCE,
-    SUPER_DANCE
+    SUPER_DANCE,
+    CTRL_DANCE,
+    ALT_DANCE
 };
 
 td_state_t cur_dance(tap_dance_state_t *state);
@@ -50,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BSLS, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    XXXXXXX,          GAMING,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLASH,KC_QUOT,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    TD(SUPER_DANCE), KC_SPC,  KC_LCTL,                  KC_RSFT,  TD(FN_DANCE), KC_RALT
+                                    TD(SUPER_DANCE), KC_SPC,  TD(CTRL_DANCE),    KC_RSFT,  TD(FN_DANCE), TD(ALT_DANCE)
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
@@ -64,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_BSLS, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    XXXXXXX,          ADJUST,   KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLASH,KC_QUOT,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    XXXXXXX, KC_SPC,  KC_LCTL,                  KC_RSFT,  TD(FN_DANCE), KC_RALT
+                                    XXXXXXX, KC_SPC,  TD(CTRL_DANCE),            KC_RSFT,  TD(FN_DANCE), TD(ALT_DANCE)
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
@@ -100,31 +102,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
-        // Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
         else return TD_SINGLE_HOLD;
     } else if (state->count == 2) {
-        // TD_DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
-        // action when hitting 'pp'. Suggested use case for this return value is when you want to send two
-        // keystrokes of the key, and not the 'double tap' action/macro.
+
         if (state->pressed) return TD_DOUBLE_HOLD;
         else return TD_DOUBLE_TAP;
     }
     else return TD_DOUBLE_TAP;
 }
 
-// Create an instance of 'td_tap_t' for the 'x' tap dance.
-
 void fn_finished(tap_dance_state_t *state, void *user_data) {
     td_state_t td_state = cur_dance(state);
     layer_on(_FUNCTION);
     switch (td_state) {
         case TD_SINGLE_HOLD:
-            // layer_on(_FUNCTION); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
-        case TD_DOUBLE_HOLD: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_HOLD: 
             register_mods(MOD_BIT(KC_RSFT));
-            // layer_on(_FUNCTION);
-            
             break;
         default:
             break;
@@ -132,21 +126,8 @@ void fn_finished(tap_dance_state_t *state, void *user_data) {
 }
 
 void fn_reset(tap_dance_state_t *state, void *user_data) {
-//    td_state_t td_state = cur_dance(state);
    layer_off(_FUNCTION);
    unregister_mods(MOD_BIT(KC_RSFT));
-    // switch (td_state) {
-    //     case TD_SINGLE_HOLD:
-    //         // layer_off(_FUNCTION); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
-    //         break;
-    //     case TD_DOUBLE_HOLD:
-    //     // unregister_mods(MOD_BIT(KC_RSFT));
-    //         // layer_off(_FUNCTION);
-            
-    //         break;
-    //     default:
-    //         break;
-    // }
 }
 
 void super_finished(tap_dance_state_t *state, void *user_data) {
@@ -154,12 +135,9 @@ void super_finished(tap_dance_state_t *state, void *user_data) {
     register_mods(MOD_BIT(KC_LGUI));
     switch (td_state) {
         case TD_SINGLE_HOLD:
-            // layer_on(_FUNCTION); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
-        case TD_DOUBLE_HOLD: // Allow nesting of 2 parens `((` within tapping term
-             register_mods(MOD_BIT(KC_RSFT));
-            // layer_on(_FUNCTION);
-            
+        case TD_DOUBLE_HOLD: 
+             register_mods(MOD_BIT(KC_RSFT)); 
             break;
         default:
             break;
@@ -167,26 +145,53 @@ void super_finished(tap_dance_state_t *state, void *user_data) {
 }
 
 void super_reset(tap_dance_state_t *state, void *user_data) {
-//    td_state_t td_state = cur_dance(state);
    unregister_mods(MOD_BIT(KC_LGUI));
    unregister_mods(MOD_BIT(KC_RSFT));
-    // switch (td_state) {
-    //     case TD_SINGLE_HOLD:
-    //         // layer_off(_FUNCTION); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
-    //         break;
-    //     case TD_DOUBLE_HOLD:
-    //     // unregister_mods(MOD_BIT(KC_RSFT));
-    //         // layer_off(_FUNCTION);
-            
-    //         break;
-    //     default:
-    //         break;
-    // }
+}
+
+void ctrl_finished(tap_dance_state_t *state, void *user_data) {
+    td_state_t td_state = cur_dance(state);
+    register_mods(MOD_BIT(KC_LCTL));
+    switch (td_state) {
+        case TD_SINGLE_HOLD:
+            break;
+        case TD_DOUBLE_HOLD: 
+             register_mods(MOD_BIT(KC_RSFT)); 
+            break;
+        default:
+            break;
+    }
+}
+
+void ctrl_reset(tap_dance_state_t *state, void *user_data) {
+   unregister_mods(MOD_BIT(KC_LCTL));
+   unregister_mods(MOD_BIT(KC_RSFT));
+}
+
+void alt_finished(tap_dance_state_t *state, void *user_data) {
+    td_state_t td_state = cur_dance(state);
+    register_mods(MOD_BIT(KC_RALT));
+    switch (td_state) {
+        case TD_SINGLE_HOLD:
+            break;
+        case TD_DOUBLE_HOLD: 
+             register_mods(MOD_BIT(KC_RSFT)); 
+            break;
+        default:
+            break;
+    }
+}
+
+void alt_reset(tap_dance_state_t *state, void *user_data) {
+   unregister_mods(MOD_BIT(KC_RALT));
+   unregister_mods(MOD_BIT(KC_RSFT));
 }
 
 tap_dance_action_t tap_dance_actions[] = {
     [FN_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, fn_finished, fn_reset),
-    [SUPER_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, super_finished, super_reset)          
+    [SUPER_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, super_finished, super_reset),
+    [CTRL_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrl_finished, ctrl_reset),
+    [ALT_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, alt_finished, alt_reset)            
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -199,10 +204,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
              if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
             switch(get_highest_layer(layer_state|default_layer_state)) {
             case _WORK:
-                RGB_MATRIX_INDICATOR_SET_COLOR(i, 0,0,255);
+                RGB_MATRIX_INDICATOR_SET_COLOR(i, 0,255,0);
                 break;
             case _GAMING:
-                RGB_MATRIX_INDICATOR_SET_COLOR(i,0,255,0);
+                RGB_MATRIX_INDICATOR_SET_COLOR(i,0,0,255);
                 break;
             case _ADJUST:
                 RGB_MATRIX_INDICATOR_SET_COLOR(i,255,0,0 );
