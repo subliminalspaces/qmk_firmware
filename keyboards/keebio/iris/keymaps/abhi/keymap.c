@@ -192,3 +192,26 @@ tap_dance_action_t tap_dance_actions[] = {
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _WORK, _GAMING, _ADJUST);
 }
+
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+
+        for (uint8_t i = led_min; i < led_max; i++) {
+             if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+            switch(get_highest_layer(layer_state|default_layer_state)) {
+            case _WORK:
+                RGB_MATRIX_INDICATOR_SET_COLOR(i, 0,0,255);
+                break;
+            case _GAMING:
+                RGB_MATRIX_INDICATOR_SET_COLOR(i,0,255,0);
+                break;
+            case _ADJUST:
+                RGB_MATRIX_INDICATOR_SET_COLOR(i,255,0,0 );
+                break;
+            default:
+            RGB_MATRIX_INDICATOR_SET_COLOR(i,0,0,0 );
+                break;
+         }
+            }
+        }
+    return false;
+}
