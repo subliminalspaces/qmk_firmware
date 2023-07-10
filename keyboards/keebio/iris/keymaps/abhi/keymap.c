@@ -17,7 +17,7 @@ typedef enum {
     TD_DOUBLE_TAP,
     TD_SINGLE_HOLD,
     TD_DOUBLE_HOLD,
-    
+
 } td_state_t;
 
 typedef struct {
@@ -72,14 +72,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_FUNCTION] = LAYOUT(
  //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, QK_BOOT,
+     _______, KC_F1,    KC_F2,    KC_F3, KC_F4,    KC_F5,                             KC_F6,   KC_F7,    KC_F8,   KC_F9,   KC_F10, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, _______, KC_LBRC, _______, KC_RBRC, _______,                            _______, KC_BSPC, KC_UP	, KC_DEL, _______, _______,
+     _______, _______, KC_LBRC, _______, KC_RBRC, _______,                            _______, KC_BSPC, KC_UP, KC_DEL,    _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______, _______, _______, _______, _______, _______,                            _______, KC_LEFT, KC_DOWN, KC_RIGHT, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-  //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
+     _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
+  //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬───┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______, _______, _______,                   KC_RSFT, _______, _______
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
@@ -88,6 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
      RGB_TOG, RGB_RMOD, RGB_MOD, _______, _______, _______,                            _______, _______, _______, _______, _______, QK_BOOT,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
+  //
      _______, _______, _______, RGB_VAD, RGB_SAI, RGB_VAI,                            _______, _______, _______, _______, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______, _______, _______, RGB_HUD, RGB_SAD, RGB_HUI,                            _______, _______, _______, _______, _______, _______,
@@ -117,7 +118,7 @@ void fn_finished(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_HOLD:
             break;
-        case TD_DOUBLE_HOLD: 
+        case TD_DOUBLE_HOLD:
             register_mods(MOD_BIT(KC_RSFT));
             break;
         default:
@@ -136,8 +137,8 @@ void super_finished(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_HOLD:
             break;
-        case TD_DOUBLE_HOLD: 
-             register_mods(MOD_BIT(KC_RSFT)); 
+        case TD_DOUBLE_HOLD:
+             register_mods(MOD_BIT(KC_RSFT));
             break;
         default:
             break;
@@ -155,8 +156,8 @@ void ctrl_finished(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_HOLD:
             break;
-        case TD_DOUBLE_HOLD: 
-             register_mods(MOD_BIT(KC_RSFT)); 
+        case TD_DOUBLE_HOLD:
+             register_mods(MOD_BIT(KC_RSFT));
             break;
         default:
             break;
@@ -174,8 +175,8 @@ void alt_finished(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_HOLD:
             break;
-        case TD_DOUBLE_HOLD: 
-             register_mods(MOD_BIT(KC_RSFT)); 
+        case TD_DOUBLE_HOLD:
+             register_mods(MOD_BIT(KC_RSFT));
             break;
         default:
             break;
@@ -191,7 +192,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [FN_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, fn_finished, fn_reset),
     [SUPER_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, super_finished, super_reset),
     [CTRL_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, ctrl_finished, ctrl_reset),
-    [ALT_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, alt_finished, alt_reset)            
+    [ALT_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, alt_finished, alt_reset)
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
