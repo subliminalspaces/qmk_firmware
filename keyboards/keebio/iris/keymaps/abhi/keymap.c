@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,     KC_G,                               KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_BSLS, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    XXXXXXX,          GAMING,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLASH,KC_QUOT,
+     KC_BSLS, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    XXXXXXX,          GAMING,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_QUOT,KC_SLASH,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     TD(SUPER_DANCE), KC_SPC,  TD(CTRL_DANCE),    KC_RSFT,  TD(FN_DANCE), TD(ALT_DANCE)
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_GRV,  KC_A,    KC_R,    KC_S,    KC_T,     KC_G,                               KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_BSLS, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    XXXXXXX,          ADJUST,   KC_K,    KC_H,    KC_COMM, KC_DOT, KC_SLASH,KC_QUOT,
+     KC_BSLS, KC_X,    KC_C,    KC_D,    KC_V,    KC_Z,    XXXXXXX,          ADJUST,   KC_K,    KC_H,    KC_COMM, KC_DOT, KC_QUOT, KC_SLASH,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     XXXXXXX, KC_SPC,  TD(CTRL_DANCE),            KC_RSFT,  TD(FN_DANCE), TD(ALT_DANCE)
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
