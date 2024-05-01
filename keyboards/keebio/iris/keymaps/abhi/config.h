@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define SPLIT_HAND_PIN D5
 
-#define TAPPING_TERM 165
+#define TAPPING_TERM 300
 
 /* ws2812 RGB LED */
 # define RGBLED_NUM 68
@@ -81,13 +81,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // # define RGB_MATRIX_FRAMEBUFFER_EFFECTS
 // # define RGB_MATRIX_KEYPRESSES
 # define ENABLE_RGB_MATRIX_PIXEL_RAIN          // Randomly light keys with random hues
-// # define ENABLE_RGB_MATRIX_TYPING_HEATMAP
+# define ENABLE_RGB_MATRIX_TYPING_HEATMAP
 # define ENABLE_RGB_MATRIX_DIGITAL_RAIN
-// # define ENABLE_RGB_MATRIX_RAINDROPS
-// # define ENABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
+# define ENABLE_RGB_MATRIX_RAINDROPS
+# define ENABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
 // # define ENABLE_RGB_MATRIX_SOLID_REACTIVE_MULTINEXUS
 
-# define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_PIXEL_RAIN // Sets the default mode, if none has been set
+# define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_JELLYBEAN_RAINDROPS // Sets the default mode, if none has been set
 # define RGB_MATRIX_MAXIMUM_BRIGHTNESS 120
 # define RGB_MATRIX_DEFAULT_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS
 # define RGB_MATRIX_LED_COUNT RGBLED_NUM
